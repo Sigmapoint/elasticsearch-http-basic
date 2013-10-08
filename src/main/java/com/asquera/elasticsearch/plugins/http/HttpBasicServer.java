@@ -75,8 +75,8 @@ public class HttpBasicServer extends HttpServer {
             super.internalDispatchRequest(request, channel);
         } else {
             String addr = getAddress(request);
-            Loggers.getLogger(getClass()).error("UNAUTHORIZED type:{}, address:{}, path:{}, request:{}, content:{}, credentials:{}",
-                    request.method(), addr, request.path(), request.params(), request.content().toUtf8(), getDecoded(request));
+            Loggers.getLogger(getClass()).error("UNAUTHORIZED type:{}, address:{}, path:{}, request:{}, credentials:{}",
+                    request.method(), addr, request.path(), request.params(), getDecoded(request));
             channel.sendResponse(new StringRestResponse(UNAUTHORIZED, "Authentication Required"));
         }
     }
@@ -102,6 +102,9 @@ public class HttpBasicServer extends HttpServer {
     }
 
     private boolean authBasic(final HttpRequest request) {
+        if (request.method() == RestRequest.Method.OPTIONS) {
+            return true;
+        }
         String decoded = "";
         try {
             decoded = getDecoded(request);
@@ -155,8 +158,8 @@ public class HttpBasicServer extends HttpServer {
         // in elasticsearch.yml set
         // http.cors.allow-headers: "X-Requested-With, Content-Type, Content-Length, Authorization"
         if (request.method() == Method.OPTIONS) {
-//            Loggers.getLogger(getClass()).error("CORS type {}, address {}, path {}, request {}, content {}",
-//                    request.method(), getAddress(request), request.path(), request.params(), request.content().toUtf8());
+//            Loggers.getLogger(getClass()).error("CORS type {}, address {}, path {}, request {}",
+//                    request.method(), getAddress(request), request.path(), request.params());
             return true;
         }
         return false;
