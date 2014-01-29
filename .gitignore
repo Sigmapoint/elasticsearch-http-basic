@@ -2,5 +2,7 @@
 *.jar
 *.zip
 /target/
+.gradle
+build/
 *~
 deploy.sh
