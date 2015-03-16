@@ -22,6 +22,10 @@ jar {
     from sourceSets.main
 }
 
+sourceCompatibility = "1.7"
+
+targetCompatibility = "1.7"
+
 repositories {
     mavenCentral()
     mavenRepo name: "sonatype", url: "https://oss.sonatype.org/content/groups/public/"
